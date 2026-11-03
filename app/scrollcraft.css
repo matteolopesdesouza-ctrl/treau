@@ -1,0 +1,95 @@
+/* Lightweight reveals: no blur, no perpetual transforms, no hidden mobile content. */
+.craft-reveal{opacity:.5;translate:0 16px;transition:opacity .35s ease,translate .45s ease}
+.craft-reveal.craft-visible,.craft-reveal:focus-within{opacity:1;translate:0 0}
+.product-opening{position:relative;min-height:780px;height:100svh;background:#0c0d10;color:#fff;overflow:hidden}
+.opening-grid{position:absolute;inset:0;background:linear-gradient(90deg,transparent 49.9%,#ffffff0c 50%,transparent 50.1%)}
+.opening-edition{position:absolute;top:120px;left:42px;font:10px var(--mono);letter-spacing:.08em;color:#a4a6af}
+.opening-piece{position:absolute;right:0;top:82px;bottom:0;width:54%;background:#1744ff;overflow:hidden}
+.opening-piece>span{position:absolute;inset:6% 0 auto;text-align:center;font:800 33vw/.95 var(--display);color:#ffffff12;letter-spacing:-.06em}
+.opening-piece>img{position:relative;width:100%;height:89%;object-fit:contain;padding:30px;transform:rotate(-7deg)}
+.opening-piece>div{position:absolute;bottom:34px;left:35px;right:35px;display:flex;align-items:center;justify-content:space-between;font:10px var(--mono)}
+.opening-piece strong{font:500 17px Arial,sans-serif}
+.opening-copy{position:absolute;left:42px;bottom:105px;z-index:2}
+.opening-copy>.section-kicker{color:#a4a6af}
+.opening-copy h1{font:600 12vw/.83 var(--display);letter-spacing:-.025em;margin:28px 0}
+.opening-copy h1>span{color:white}
+.opening-copy p{font-size:13px;line-height:1.7;color:#bfc0c7;margin:0 0 30px}
+.opening-copy .campaign-cta{min-width:250px}
+.opening-scroll{position:absolute;left:42px;bottom:27px;display:flex;gap:25px;align-items:center;min-height:44px;font:9px var(--mono)}
+.kinetic-divider{background:#1744ff;color:#fff;overflow:hidden;padding:40px 0}
+.kinetic-divider>div{font:600 12vw/.95 var(--display);white-space:nowrap;letter-spacing:-.025em}
+.kinetic-divider>div:nth-child(2){color:#afc0ff}
+.kinetic-divider>span{display:block;margin:24px 22px 0;font:9px var(--mono)}
+@media(max-width:700px){
+ html{scroll-behavior:auto}
+ .product-opening{min-height:760px;height:100svh}
+ .opening-edition{top:90px;left:22px;font-size:8px;z-index:2}
+ .opening-piece{top:120px;left:22px;right:22px;width:auto;height:42%;bottom:auto}
+ .opening-piece>span{font-size:63vw;top:4%}
+ .opening-piece>img{height:100%;padding:0 28px 12px}
+ .opening-piece>div{bottom:15px;left:16px;right:16px;font-size:8px}
+ .opening-piece strong{font-size:12px}
+ .opening-copy{left:22px;right:22px;bottom:70px}
+ .opening-copy>.section-kicker{display:none}
+ .opening-copy h1{font-size:20vw;line-height:.83;margin:0 0 18px}
+ .opening-copy p{font-size:11px;margin-bottom:18px}
+ .opening-copy .campaign-cta{display:flex;width:100%;min-height:52px}
+ .opening-scroll{left:22px;bottom:10px;font-size:8px;min-height:40px}
+ .attitude-scene,.signature-scene,.city-scene{height:auto;--progress:1;--approach:.5;--speed:0px}
+ .attitude-stage,.signature-stage,.city-stage{position:relative;height:100svh;perspective:none}
+ .attitude-photo,.attitude-stage h2 i{clip-path:none;transform:none}
+ .signature-garment{transform:rotate(-5deg);will-change:auto}
+ .signature-garment img{filter:none}
+ .signature-callout{opacity:1;transform:none}
+ .city-image{transform:none}
+ .movement-type>div{transform:none}
+ .worlds-track,.rotation-deck{scroll-snap-type:x proximity}
+ .craft-reveal{opacity:1;translate:none;transition:none}
+ .kinetic-divider{padding:25px 0}
+ .kinetic-divider>div{font-size:19vw}
+ .site-header.on-hero.is-scrolled{backdrop-filter:none;background:#0b0c0d}
+}
+@media(prefers-reduced-motion:reduce){.craft-reveal{opacity:1;translate:none;transition:none}}
+/* Interaction refinements stay independent from decorative motion. */
+.opening-copy h1>span{display:block;max-width:95vw;overflow-wrap:anywhere}
+.opening-copy h1{max-width:55vw}
+.pdp-topline>button{min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.pdp-accordions summary{cursor:pointer}
+.quick-shop-form fieldset{min-width:0}
+.modal-content:focus,.admin-modal-content:focus{outline:none}
+.checkout-success>.button,.checkout-success>.text-link{margin:20px 20px 0 0}
+.remove-coupon{margin:0 0 10px}
+.craft-reveal{opacity:.7;translate:0 18px;transition:opacity .35s ease,translate .5s cubic-bezier(.2,.8,.2,1)}
+.craft-reveal.craft-visible,.craft-reveal:focus-within{opacity:1;translate:0 0}
+@media(max-width:700px){
+ .opening-copy h1{max-width:100%}
+ .craft-reveal{opacity:.85;translate:0 12px;transition:opacity .3s ease,translate .4s ease}
+ .craft-reveal.craft-visible,.craft-reveal:focus-within{opacity:1;translate:0 0}
+ .filter-bar{gap:18px;padding-top:5px}
+ .filter-bar label{font-size:11px;min-width:125px}
+ .filter-bar select{min-height:44px;font-size:12px}
+ .size-guide{overflow-x:auto}
+}
+/* Native scroll timelines progressively enhance supported browsers; no JS polyfill. */
+@supports(animation-timeline:view()){
+ @media(prefers-reduced-motion:no-preference){
+  .opening-piece>img{animation:opening-drift linear both;animation-timeline:view();animation-range:entry 0% exit 100%}
+  .kinetic-divider>div:first-child{animation:type-forward linear both;animation-timeline:view();animation-range:entry 0% exit 100%}
+  .kinetic-divider>div:nth-child(2){animation:type-back linear both;animation-timeline:view();animation-range:entry 0% exit 100%}
+  .city-image>img{animation:lookbook-drift linear both;animation-timeline:view();animation-range:entry 0% exit 100%}
+ }
+}
+@keyframes opening-drift{from{transform:translateY(8px) rotate(-7deg) scale(.98)}to{transform:translateY(-24px) rotate(-3deg) scale(1.03)}}
+@keyframes type-forward{from{translate:-12vw 0}to{translate:0 0}}
+@keyframes type-back{from{translate:0 0}to{translate:-15vw 0}}
+@keyframes lookbook-drift{from{transform:scale(1.035) translateY(8px)}to{transform:scale(1.035) translateY(-8px)}}
+@media(prefers-reduced-motion:reduce){.craft-reveal{opacity:1;translate:none;transition:none}.opening-piece>img,.kinetic-divider>div,.city-image>img{animation:none!important}}
+/* ESSENTIALS uses the product itself, consistently across both collection views. */
+.world-card-0,.collection-cover.cover-0{background:#e9ebee;color:#101113}
+.world-card-0>img,.collection-cover.cover-0>img{object-fit:contain;width:80%;height:84%;padding:20px;margin:0 auto}
+.world-card-0:after,.collection-cover.cover-0:after{background:none}
+.world-card-0>div>i{border-color:#1115;color:#111}
+.collection-cover.cover-0>div{color:#111}
+@media(max-width:700px){.form-stack input,.coupon-field input,.newsletter input,.search-input input,.filter-bar select{font-size:16px}}
+/* Keep every clickable area stationary; animate its artwork, not its hitbox. */
+.product-card.craft-reveal,.collection-cover.craft-reveal,.newsletter form.craft-reveal{translate:none;transition:opacity .3s ease}
