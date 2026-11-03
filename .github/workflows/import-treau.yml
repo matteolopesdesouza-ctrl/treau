@@ -1,0 +1,39 @@
+name: Import TREAU site from source archive
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'TREAU-source.zip'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Import source files and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f TREAU-source.zip
+          mkdir -p .treau-import
+          unzip -q TREAU-source.zip -d .treau-import
+          test -f .treau-import/TREAU/package.json
+          cp -a .treau-import/TREAU/. .
+          rm -rf .treau-import
+          # The website uses system fallbacks when local font files are absent.
+          # Font binaries from the source archive are not republished.
+          rm -f public/fonts/*.woff2 public/fonts/*.woff public/fonts/*.otf public/fonts/*.ttf
+          rm -f TREAU-source.zip
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m 'Publish complete TREAU source code'
+            git push origin HEAD:main
+          fi
