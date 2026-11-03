@@ -1,10 +1,9 @@
-name: Import TREAU site from source archive
-
+name: Import TREAU website source
 on:
   push:
     branches: [main]
     paths:
-      - 'TREAU-source.zip'
+      - 'treau-upload/part-05.b64'
   workflow_dispatch:
 
 permissions:
@@ -14,26 +13,29 @@ jobs:
   import-site:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: Import source files and commit
+      - name: Extract site and commit
         shell: bash
         run: |
           set -euo pipefail
-          test -f TREAU-source.zip
+          if [ ! -f treau-upload/part-05.b64 ]; then
+            echo 'TREAU was imported; nothing to do.'
+            exit 0
+          fi
+          test "$(find treau-upload -maxdepth 1 -name 'part-*.b64' | wc -l)" -eq 6
+          cat treau-upload/part-*.b64 | base64 --decode > /tmp/TREAU-source.zip
           mkdir -p .treau-import
-          unzip -q TREAU-source.zip -d .treau-import
+          # Font binaries were removed from the archive data before it was uploaded.
+          unzip -q /tmp/TREAU-source.zip -d .treau-import -x 'TREAU/public/fonts/*'
           test -f .treau-import/TREAU/package.json
-          cp -a .treau-import/TREAU/. .
-          rm -rf .treau-import
-          # The website uses system fallbacks when local font files are absent.
-          # Font binaries from the source archive are not republished.
+          cp -a .treau-import/TREAU/. ./
+          rm -rf .treau-import treau-upload
           rm -f public/fonts/*.woff2 public/fonts/*.woff public/fonts/*.otf public/fonts/*.ttf
-          rm -f TREAU-source.zip
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
           if ! git diff --cached --quiet; then
-            git commit -m 'Publish complete TREAU source code'
+            git commit -m 'Publish complete TREAU website source'
             git push origin HEAD:main
           fi
