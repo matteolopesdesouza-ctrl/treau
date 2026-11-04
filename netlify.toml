@@ -1,0 +1,9 @@
+# Restore the public Netlify address while the application keeps its current runtime.
+[build]
+  base = "netlify"
+  command = "npm run build"
+  publish = "public"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
